@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * todo
+ * The main service class providing the game functionality.
  */
 @Validated
 @Service
@@ -122,7 +122,7 @@ public class GameServiceImpl implements GameService {
      * Check if there is an entry in the map that has a value != null
      * which means that some player already played its turn.
      *
-     * @return
+     * @return - true if there is at least one non-null item in the board, false otherwise.
      */
     private boolean gameAlreadyStarted() {
         for (Map.Entry<String, String> entry : board.entrySet()) {
@@ -133,40 +133,30 @@ public class GameServiceImpl implements GameService {
         return false;
     }
 
-
-    @Deprecated(since = "1.0.0", forRemoval = true)
-    private boolean boardFull() {
-        for (Map.Entry<String, String> entry : board.entrySet()) {
-            if (entry.getValue() == null) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     /**
-     * todo
+     * Determines the next player based on the currently playing one.
      *
-     * @return
+     * @return - the next player's ID.
      */
     private String nextPlayer() {
         return playerId.equals(Constants.PLAYER_X) ? Constants.PLAYER_O : Constants.PLAYER_X;
     }
 
     /**
-     * todo
+     * Checks if the position is valid (in the range of [1 - 9])
+     * and also can be placed on the board (position is empty).
      *
-     * @param position
-     * @return
+     * @param position - the position to be played.
+     * @return -  true if the position is in range and can be placed on the board, false otherwise.
      */
     private boolean positionValid(Integer position) {
         return position > 0 && position < 10 && board.get(String.valueOf(position - 1)) == null;
     }
 
     /**
-     * todo
+     * Checks who won the game.
      *
-     * @return
+     * @return - the player's ID of the winner, draw if no winner or null if the game isn't over yet.
      */
     private String theWinner() {
         for (int a = 0; a < 8; a++) {
@@ -210,5 +200,15 @@ public class GameServiceImpl implements GameService {
         }
 
         return null;
+    }
+
+    @Deprecated(since = "1.0.0", forRemoval = true)
+    private boolean boardFull() {
+        for (Map.Entry<String, String> entry : board.entrySet()) {
+            if (entry.getValue() == null) {
+                return false;
+            }
+        }
+        return true;
     }
 }
