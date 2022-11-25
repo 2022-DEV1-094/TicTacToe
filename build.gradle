@@ -52,3 +52,11 @@ test {
 	// Allow reading system properties and env. variables passed along with Gradle commands.
 	systemProperties System.getProperties()
 }
+
+/**
+ * Enable running multiple test cases in parallel. (Gradle Optimization)
+ */
+tasks.withType(Test).configureEach {
+	// Use some number less than or equal to the number of CPU cores
+	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+}
